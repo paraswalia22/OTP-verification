@@ -1,20 +1,21 @@
-const express = require('express');
+const express = require('express');  
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const nodemailer = require('nodemailer');
+const bodyParser = require('body-parser');   
+const nodemailer = require('nodemailer');   
 const User = require('./models/Users');
-const cors = require('cors');
-const app = express();
+const cors = require('cors');  
+const app = express(); 
 app.use(cors());
 // Middleware
 app.use(bodyParser.json());
+
 // Connect to MongoDB
 mongoose.connect('mongodb://127.0.0.1:27017/g24', {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true, 
 });
 
-// Define MongoDB schema
+// Define new MongoDB schema
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
@@ -69,17 +70,18 @@ app.post('/verify-otp', async (req, res) => {
   
 
 // Function to send OTP via email
-function sendOTP(email, otp) {
-  const transporter = nodemailer.createTransport({
+
+function sendOTP(email, otp) {  // two parameters
+  const transporter = nodemailer.createTransport({  // used to send mail
     service: 'gmail',
     auth: {
-      user: '...', // Your Gmail email address
-      pass: '...', // Your Gmail app password
+      user: 'abc@gmail.com', // Your Gmail email address
+      pass: 'abcd efgh ijkl', // Your Gmail app password
     },
   });
 
   const mailOptions = {
-    from: '...', // Your Gmail email address
+    from: 'abc@gmail.com',
     to: email,
     subject: 'OTP for registration',
     text: `Your OTP for registration is: ${otp}`,
@@ -94,8 +96,5 @@ function sendOTP(email, otp) {
   });
 }
 
-// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`localhost ${PORT}`)
-);
-
+app.listen(PORT, () => console.log(`localhost ${PORT}`));
